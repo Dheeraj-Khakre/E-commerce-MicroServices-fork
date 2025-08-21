@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Welcome to ShopX</title>
+    <style>
+        body { font-family: Arial, sans-serif; color: #333; }
+        .btn { background:#1a73e8; color:#fff; padding:10px 14px; text-decoration:none; border-radius:4px; }
+    </style>
+</head>
+<body>
+<h2>Welcome, <span th:text="${firstName}">Customer</span>!</h2>
+
+<p>Hi <span th:text="${firstName}">there</span>,</p>
+
+<p>Thanks for creating an account at <strong>ShopX</strong>. We're thrilled to have you.</p>
+
+<p>
+    <a th:href="${baseUrl}" class="btn">Start Shopping</a>
+</p>
+
+<p>If you ever need help, contact us at <a th:href="'mailto:' + ${supportEmail}" th:text="${supportEmail}">support</a>.</p>
+
+<hr />
+<small>Sent on <span th:text="${sentAt}">date</span></small>
+</body>
+</html>

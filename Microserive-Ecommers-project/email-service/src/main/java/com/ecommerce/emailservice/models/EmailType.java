@@ -1,5 +1,7 @@
 package com.ecommerce.emailservice.models;
 public enum EmailType {
+    USER_CREATED,           // Sent after new user created
+    USER_PASSWORD_CHANGE,   // send after password change
     ORDER_CONFIRMATION,     // Sent after purchase
     ORDER_DISPATCHED,       // Shipment initiated
     DELIVERY_UPDATE,        // Tracking details
