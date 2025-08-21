@@ -11,6 +11,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -22,7 +23,9 @@ public class UserService {
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
     private  final UserProducer userProducer;
+    private final EmailOutBoxService outBoxService;
 
+    @Transactional
     public UserResponseDTO registerUser(UserRequestDTO dto) {
         try {
             User user = UserMapper.toEntity(dto);
@@ -30,8 +33,9 @@ public class UserService {
             user.setPassword(passwordEncoder.encode(dto.getPassword()));
 
             User user1 = userRepository.save(user);
-            userProducer.sendUserCreatedEvent(user1.toString());
-            log.info("data sent to kafka broker ");
+            outBoxService.createOutBox(user,"CREATE_USER");
+           // userProducer.sendUserCreatedEvent(user1.toString());
+           // log.info("data sent to kafka broker ");
             return UserMapper.toResponse(user1);
         } catch (Exception e) {
             throw new RuntimeException("Failed to register user", e);
